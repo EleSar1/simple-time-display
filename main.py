@@ -45,7 +45,7 @@ def display_current_time() -> None:
                 current_date = strftime("%A, %B %d %Y") #update the current date
 
             current_time = strftime("%H:%M:%S")
-            print(f"{current_date} {current_time}   ", end = "\r")
+            print(f"\r{current_date} {current_time}   ", end = "")
             sleep(1)
         except KeyboardInterrupt:
             print("\nInterrupted by the user.")
@@ -94,3 +94,96 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
         remainder = total_seconds - (3600 * hrs)
         mins = remainder // 60
         secs = remainder - (mins * 60)
+
+
+def stopwatch() -> None:
+    """
+    Runs a simple stopwatch using the format 'HH:MM:SS'.
+
+    Args:
+        None
+    
+    Returns: 
+        None
+
+    Behavior:
+        - The function continuously updates the displayed time using a carriage return ('\r') to
+          overwrite the previous output.
+        - The function ends when user prompts 'Ctrl + C'
+
+    """
+    total_secs = 0
+    process = True
+
+    while process == True:
+        
+        try:
+            hrs = total_secs // 3600
+            remainder = total_secs % 3600
+            mins = remainder // 60 
+            secs = remainder % 60
+            
+            print(f"\r{hrs:02d}:{mins:02d}:{secs:02d}", end="")
+            total_secs += 1
+            sleep(1)
+
+        except KeyboardInterrupt:
+            print("\nInterrupted by the user.")
+            process = False
+
+
+def main():
+
+    print("Welcome to Simple Time Display program.\nPlease choose an option:")
+    print("Press [1] to display current time.")
+    print("Press [2] to start a countdown.")
+    print("Press [3] to start stopwatch.")
+    choice = int(input("Insert choice here: "))
+    
+    if choice == 1:
+        print("\nDisplay current time\n")
+        display_current_time()
+
+    elif choice == 2:
+        print("\nCountdown\n")
+        
+        hrs = -1
+
+        while hrs < 0: 
+            try:
+                hrs = int(input("Please enter the hours as integer: "))
+                if hrs < 0:
+                    print("\nInvalid input. Please make sure to enter a positive number.")
+            except ValueError:
+                print("\nInvalid input. Please enter an integer.")
+
+        mins = -1
+
+        while mins < 0: 
+            try:
+                mins = int(input("Please enter the minutes as integer: "))
+                if mins < 0:
+                    print("\nInvalid input. Please make sure to enter a positive number.")
+            except ValueError:
+                print("\nInvalid input. Please enter an integer.")
+
+        secs = -1 
+
+        while secs < 0:
+            try:
+                secs = int(input("Please enter the seconds as integer: "))
+                if secs < 0:
+                    print("\nInvalid input. Please make sure to enter a positive number.")
+            except ValueError:
+                print("\nInvalid input. Please enter an integer.")
+
+            
+        countdown(hrs, mins, secs)
+
+    elif choice == 3:
+        stopwatch()
+
+
+if __name__ == "__main__":
+    
+    main()
