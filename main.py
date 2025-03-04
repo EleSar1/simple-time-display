@@ -97,7 +97,21 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
 
 
 def stopwatch() -> None:
+    """
+    Runs a simple stopwatch using the format 'HH:MM:SS'.
 
+    Args:
+        None
+    
+    Returns: 
+        None
+
+    Behavior:
+        - The function continuously updates the displayed time using a carriage return ('\r') to
+          overwrite the previous output.
+        - The function ends when user prompts 'Ctrl + C'
+
+    """
     total_secs = 0
     process = True
 
@@ -124,5 +138,16 @@ def main():
     print("Press [1] to display current time.")
     print("Press [2] to start a countdown.")
     print("Press [3] to start stopwatch.")
-
+    choice = int(input("Insert choice here: "))
     
+    if choice == 1:
+        display_current_time()
+    elif choice == 2:
+        countdown()
+    elif choice == 3:
+        stopwatch()
+
+
+if __name__ == "__main__":
+    
+    main()
