@@ -45,7 +45,7 @@ def display_current_time() -> None:
                 current_date = strftime("%A, %B %d %Y") #update the current date
 
             current_time = strftime("%H:%M:%S")
-            print(f"{current_date} {current_time}   ", end = "\r")
+            print(f"\r{current_date} {current_time}   ", end = "")
             sleep(1)
         except KeyboardInterrupt:
             print("\nInterrupted by the user.")
@@ -128,7 +128,7 @@ def stopwatch() -> None:
             sleep(1)
 
         except KeyboardInterrupt:
-            print("\nInterrupt detected. Exiting . . .")
+            print("\nInterrupted by the user.")
             process = False
 
 
@@ -141,9 +141,45 @@ def main():
     choice = int(input("Insert choice here: "))
     
     if choice == 1:
+        print("\nDisplay current time\n")
         display_current_time()
+
     elif choice == 2:
-        countdown()
+        print("\nCountdown\n")
+        
+        hrs = -1
+
+        while hrs < 0: 
+            try:
+                hrs = int(input("Please enter the hours as integer: "))
+                if hrs < 0:
+                    print("\nInvalid input. Please make sure to enter a positive number.")
+            except ValueError:
+                print("\nInvalid input. Please enter an integer.")
+
+        mins = -1
+
+        while mins < 0: 
+            try:
+                mins = int(input("Please enter the minutes as integer: "))
+                if mins < 0:
+                    print("\nInvalid input. Please make sure to enter a positive number.")
+            except ValueError:
+                print("\nInvalid input. Please enter an integer.")
+
+        secs = -1 
+
+        while secs < 0:
+            try:
+                secs = int(input("Please enter the seconds as integer: "))
+                if secs < 0:
+                    print("\nInvalid input. Please make sure to enter a positive number.")
+            except ValueError:
+                print("\nInvalid input. Please enter an integer.")
+
+            
+        countdown(hrs, mins, secs)
+
     elif choice == 3:
         stopwatch()
 
