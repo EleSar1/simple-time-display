@@ -94,3 +94,26 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
         remainder = total_seconds - (3600 * hrs)
         mins = remainder // 60
         secs = remainder - (mins * 60)
+
+
+def stopwatch() -> None:
+
+    total_secs = 0
+    process = True
+
+    while process == True:
+        
+        try:
+            hrs = total_secs // 3600
+            remainder = total_secs % 3600
+            mins = remainder // 60 
+            secs = remainder % 60
+            
+            print(f"\r{hrs:02d}:{mins:02d}:{secs:02d}", end="")
+            total_secs += 1
+            sleep(1)
+
+        except KeyboardInterrupt:
+            print("\nInterrupt detected. Exiting . . .")
+            process = False
+
