@@ -1,7 +1,10 @@
 from time import *
 
 def display_current_time() -> None:
-
+    """
+    Continously displays the current date and time in the format:
+    Day, Month DD YYYY
+    """
     process = True
     current_date = strftime("%A, %B %d %Y")
 
