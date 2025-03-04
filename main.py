@@ -117,3 +117,12 @@ def stopwatch() -> None:
             print("\nInterrupt detected. Exiting . . .")
             process = False
 
+
+def main():
+
+    print("Welcome to Simple Time Display program.\nPlease choose an option:")
+    print("Press [1] to display current time.")
+    print("Press [2] to start a countdown.")
+    print("Press [3] to start stopwatch.")
+
+    
