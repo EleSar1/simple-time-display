@@ -134,18 +134,28 @@ def stopwatch() -> None:
 
 def main():
 
-    print("Welcome to Simple Time Display program.\nPlease choose an option:")
-    print("Press [1] to display current time.")
-    print("Press [2] to start a countdown.")
-    print("Press [3] to start stopwatch.")
-    choice = int(input("Insert choice here: "))
-    
+    print("Welcome to Simple Time Display program.\nPlease choose an option by pressing:\n")
+    print("1: to display current time.")
+    print("2: to start a countdown.")
+    print("3: to start stopwatch.")
+    print("Press 0 if you want to stop the program.")
+    print("\n-------------------------------------------------------------------------------\n")
+
+    choice = 4
+    while choice > 3 or choice < 0: 
+        try: 
+            choice = int(input("Insert choice here: "))
+            if choice > 3:
+                print("\nNumber out of range. Please make sure to choose an existing functionality.")
+        except ValueError:
+            print("\nInvalid input. Please enter a valid integer.")
+
     if choice == 1:
         print("\nDisplay current time\n")
         display_current_time()
 
     elif choice == 2:
-        print("\nCountdown\n")
+        print("\nStarting Countdown\n")
         
         hrs = -1
 
@@ -181,7 +191,11 @@ def main():
         countdown(hrs, mins, secs)
 
     elif choice == 3:
+        print("\nStarting Stopwatch\nPress Ctrl+C to stop.")
         stopwatch()
+
+    else:
+        print("Exiting the program. Goodbye!")
 
 
 if __name__ == "__main__":
