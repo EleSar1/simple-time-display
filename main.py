@@ -52,11 +52,26 @@ def display_current_time() -> None:
             process = False
 
             
-def customizable_output(custom_choice: str) -> None:
-    pass
+def customizable_output(total_seconds: int, display_format: str) -> str:
+
+    days = total_seconds // 86400
+    hrs = (total_seconds % 86400) // 3600
+    mins = (total_seconds % 3600) // 60
+    secs = total_seconds % 60
+    
+    if display_format == "dhms":
+        return f"{days} days, {hrs:02d}:{mins:02d}:{secs:02d}"
+    elif display_format == "hms":
+        total_hours = total_seconds // 3600
+        return f"{total_hours:02d}:{mins:02d}:{secs:02d}"
+    elif display_format == "ms":
+        total_minutes = total_seconds // 60
+        return f"{total_minutes:02d}:{secs:02d}"
+    elif display_format == "s":
+        return f"{secs:02d} seconds"
 
 
-def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
+def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
 
     """
 
@@ -69,6 +84,7 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
         - hrs (int): The number of hours to count down from (default is 0).
         - mins (int): The number of minutes to count down from (default is 0).
         - secs (int): The number of seconds to count down from (default is 0).
+        - display_format (str): The format time will be displayed the countdown (default is 'hms').
 
     Returns:
         None
@@ -81,7 +97,7 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
     Example usage:
 
     '''
-        countdown(0,1,10) # Starts a countdown from 1 minute and 10 seconds
+        countdown(0,1,10, hms) # Starts a countdown from 1 minute and 10 seconds
     '''    
     
     """
@@ -90,14 +106,9 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
 
     while total_seconds >= 0:
 
-        print(f"\r{hrs:02d}:{mins:02d}:{secs:02d} left!", end = "")
+        print(f"\r{customizable_output(total_seconds, display_format)} left!", end = "")
         total_seconds -= 1
         sleep(1)
-        
-        hrs = total_seconds // 3600
-        remainder = total_seconds - (3600 * hrs)
-        mins = remainder // 60
-        secs = remainder - (mins * 60)
 
 
 def stopwatch() -> None:
@@ -181,8 +192,18 @@ def main():
             except ValueError:
                 print("\nInvalid input. Please enter an integer.")
 
-            
-        countdown(hrs, mins, secs)
+        format_countdown = ["dhms", "hms", "ms", "s", "0"]
+        display_format = ""
+        while display_format not in format_countdown:
+            display_format = input("Please specify which format you want to use (dhms/hms/ms/s)\n0 to exit.\n")
+            if display_format not in format_countdown:
+                print("Wrong input. Please make sure to insert an existing format.")
+            elif display_format in format_countdown[0:4]:
+                countdown(hrs, mins, secs, display_format)
+                print("\nTime's up!")
+            elif display_format == "0":
+                print("Terminated by the user. Goodbye!")
+
 
     elif choice == 3:
         stopwatch()
