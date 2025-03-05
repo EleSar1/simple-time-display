@@ -53,6 +53,22 @@ def display_current_time() -> None:
 
             
 def customizable_output(total_seconds: int, display_format: str) -> str:
+    
+    """
+    Formats the given total time in seconds into a human-readable string 
+    based on the specified display format.
+
+    Parameters:
+    total_seconds (int): The total duration in seconds.
+    display_format (str): The desired output format. Options:
+        - "dhms": Days, hours, minutes, and seconds (e.g., "1 days, 02:30:15")
+        - "hms": Total hours, minutes, and seconds (e.g., "26:30:15")
+        - "ms": Total minutes and seconds (e.g., "1590:15")
+        - "s": Only seconds (e.g., "95415 seconds")
+
+    Returns:
+    str: The formatted time string according to the chosen display format.
+    """
 
     days = total_seconds // 86400
     hrs = (total_seconds % 86400) // 3600
@@ -85,19 +101,24 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") 
         - mins (int): The number of minutes to count down from (default is 0).
         - secs (int): The number of seconds to count down from (default is 0).
         - display_format (str): The format time will be displayed the countdown (default is 'hms').
+            Available formats:
+            -"dhms" -> Days, hours, minutes, and seconds (e.g., "1 days, 02:30:15")
+            - "hms" -> Total hours, minutes, and seconds (e.g., "26:30:15")
+            - "ms" -> Total minutes and seconds (e.g., "1590:15")
+            - "s" -> Only seconds (e.g., "95415 seconds")
 
     Returns:
         None
 
     Behavior:
-        - The function continuously updates the displayed time using a carriage return ('\n') to
-          overwrite the previous output.
+        - Updates the displayed time every second using a carriage return ('\r') to overwrite previous output.
         - The countdown ends automatically when it reaches zero.
+        - Uses the 'customizable_output' function to format the remaining time.
 
     Example usage:
 
     '''
-        countdown(0,1,10, hms) # Starts a countdown from 1 minute and 10 seconds
+        countdown(0,1,10, "hms") # Starts a countdown from 1 minute and 10 seconds
     '''    
     
     """
