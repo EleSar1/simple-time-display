@@ -50,9 +50,44 @@ def display_current_time() -> None:
         except KeyboardInterrupt:
             print("\nInterrupted by the user.")
             process = False
+
             
-          
-def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
+def customizable_output(total_seconds: int, display_format: str) -> str:
+    
+    """
+    Formats the given total time in seconds into a human-readable string 
+    based on the specified display format.
+
+    Parameters:
+    total_seconds (int): The total duration in seconds.
+    display_format (str): The desired output format. Options:
+        - "dhms": Days, hours, minutes, and seconds (e.g., "1 days, 02:30:15")
+        - "hms": Total hours, minutes, and seconds (e.g., "26:30:15")
+        - "ms": Total minutes and seconds (e.g., "1590:15")
+        - "s": Only seconds (e.g., "95415 seconds")
+
+    Returns:
+    str: The formatted time string according to the chosen display format.
+    """
+
+    days = total_seconds // 86400
+    hrs = (total_seconds % 86400) // 3600
+    mins = (total_seconds % 3600) // 60
+    secs = total_seconds % 60
+    
+    if display_format == "dhms":
+        return f"{days} days, {hrs:02d}:{mins:02d}:{secs:02d}"
+    elif display_format == "hms":
+        total_hours = total_seconds // 3600
+        return f"{total_hours:02d}:{mins:02d}:{secs:02d}"
+    elif display_format == "ms":
+        total_minutes = total_seconds // 60
+        return f"{total_minutes:02d}:{secs:02d}"
+    elif display_format == "s":
+        return f"{secs:02d} seconds"
+
+
+def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
 
     """
 
@@ -65,19 +100,25 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
         - hrs (int): The number of hours to count down from (default is 0).
         - mins (int): The number of minutes to count down from (default is 0).
         - secs (int): The number of seconds to count down from (default is 0).
+        - display_format (str): The format time will be displayed the countdown (default is 'hms').
+            Available formats:
+            -"dhms" -> Days, hours, minutes, and seconds (e.g., "1 days, 02:30:15")
+            - "hms" -> Total hours, minutes, and seconds (e.g., "26:30:15")
+            - "ms" -> Total minutes and seconds (e.g., "1590:15")
+            - "s" -> Only seconds (e.g., "95415 seconds")
 
     Returns:
         None
 
     Behavior:
-        - The function continuously updates the displayed time using a carriage return ('\r') to
-          overwrite the previous output.
+        - Updates the displayed time every second using a carriage return ('\r') to overwrite previous output.
         - The countdown ends automatically when it reaches zero.
+        - Uses the 'customizable_output' function to format the remaining time.
 
     Example usage:
 
     '''
-        countdown(0,1,10) # Starts a countdown from 1 minute and 10 seconds
+        countdown(0,1,10, "hms") # Starts a countdown from 1 minute and 10 seconds
     '''    
     
     """
@@ -86,14 +127,9 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
 
     while total_seconds >= 0:
 
-        print(f"\r{hrs:02d}:{mins:02d}:{secs:02d} left!", end = "")
+        print(f"\r{customizable_output(total_seconds, display_format)} left!", end = "")
         total_seconds -= 1
         sleep(1)
-        
-        hrs = total_seconds // 3600
-        remainder = total_seconds - (3600 * hrs)
-        mins = remainder // 60
-        secs = remainder - (mins * 60)
 
 
 def stopwatch(total_secs: int = 0) -> None:
@@ -211,9 +247,18 @@ def main():
             except ValueError:
                 print("\nInvalid input. Please enter an integer.")
 
-            
-        countdown(hrs, mins, secs)
-        print("\nTime's up!")
+        format_countdown = ["dhms", "hms", "ms", "s", "0"]
+        display_format = ""
+        while display_format not in format_countdown:
+            display_format = input("Please specify which format you want to use (dhms/hms/ms/s)\n0 to exit.\n")
+            if display_format not in format_countdown:
+                print("Wrong input. Please make sure to insert an existing format.")
+            elif display_format in format_countdown[0:4]:
+                countdown(hrs, mins, secs, display_format)
+                print("\nTime's up!")
+            elif display_format == "0":
+                print("Terminated by the user. Goodbye!")
+
 
     elif choice == 3:
         print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
