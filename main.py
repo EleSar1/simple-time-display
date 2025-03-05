@@ -97,12 +97,12 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
 
 
 def stopwatch(total_secs: int = 0) -> None:
-    
+
     """
     Runs a simple stopwatch using the format 'HH:MM:SS'.
 
     Args:
-        total_secs: the total seconds elapsed during stopwatch. Default value is set to 0.
+        total_secs (int): the total seconds elapsed during stopwatch. Default value is set to 0.
     
     Returns: 
         None
