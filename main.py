@@ -118,7 +118,6 @@ def stopwatch(total_secs: int = 0) -> None:
 
     process = True
 
-    print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
     while process == True:
         
         try:
@@ -155,9 +154,7 @@ def stopwatch(total_secs: int = 0) -> None:
             
 
             process = False
-
-    return total_secs 
-
+ 
 
 def main():
 
@@ -219,6 +216,7 @@ def main():
         print("\nTime's up!")
 
     elif choice == 3:
+        print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
         stopwatch()
         print("Exiting. . .\nGoodbye!")
 
