@@ -96,12 +96,13 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
         secs = remainder - (mins * 60)
 
 
-def stopwatch() -> None:
+def stopwatch(total_secs: int = 0) -> None:
+    
     """
     Runs a simple stopwatch using the format 'HH:MM:SS'.
 
     Args:
-        None
+        total_secs: the total seconds elapsed during stopwatch. Default value is set to 0.
     
     Returns: 
         None
@@ -109,12 +110,15 @@ def stopwatch() -> None:
     Behavior:
         - The function continuously updates the displayed time using a carriage return ('\r') to
           overwrite the previous output.
-        - The function ends when user prompts 'Ctrl + C'
+        - The function stop when user prompts 'Ctrl + C'
+        - When prompted Ctrl+C, the user can prompt an integer to terminate the program, 
+          reset stopwatch to start from 0 again or continue the previous execution.
 
     """
-    total_secs = 0
+
     process = True
 
+    print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
     while process == True:
         
         try:
@@ -122,14 +126,37 @@ def stopwatch() -> None:
             remainder = total_secs % 3600
             mins = remainder // 60 
             secs = remainder % 60
-            
+
             print(f"\r{hrs:02d}:{mins:02d}:{secs:02d}", end="")
             total_secs += 1
             sleep(1)
 
         except KeyboardInterrupt:
-            print("\nInterrupted by the user.")
+            print("\n\nInterrupted. Please type:")
+            print("\n1: if you want to resume.")
+            print("2: if you want to reset.")
+            print("0: if you want to stop.")
+
+            choice = -1
+            while choice < 0 or choice > 2:
+                try:
+                    choice = int(input(""))
+                    if choice < 0 or choice > 2:
+                        print("Number out of range. Please enter a number between 0 and 2.")
+                except ValueError:
+                    print("Wrong value. Please enter a valid integer.")
+            
+            if choice == 1:
+                print("Resuming. . .\nPress Ctrl+C to stop")
+                stopwatch(total_secs)
+            elif choice == 2:
+                print("Restarting. . .\nPress Ctrl+C to stop")
+                stopwatch()
+            
+
             process = False
+
+    return total_secs 
 
 
 def main():
@@ -191,11 +218,8 @@ def main():
         countdown(hrs, mins, secs)
 
     elif choice == 3:
-        print("\nStarting Stopwatch\nPress Ctrl+C to stop.")
         stopwatch()
-
-    else:
-        print("Exiting the program. Goodbye!")
+        print("Exiting. . .\nGoodbye!")
 
 
 if __name__ == "__main__":
