@@ -50,8 +50,12 @@ def display_current_time() -> None:
         except KeyboardInterrupt:
             print("\nInterrupted by the user.")
             process = False
+
             
-          
+def customizable_output(custom_choice: str) -> None:
+    pass
+
+
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
 
     """
