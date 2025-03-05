@@ -70,7 +70,7 @@ def countdown(hrs: int = 0, mins: int = 0, secs: int = 0) -> None:
         None
 
     Behavior:
-        - The function continuously updates the displayed time using a carriage return ('\n') to
+        - The function continuously updates the displayed time using a carriage return ('\r') to
           overwrite the previous output.
         - The countdown ends automatically when it reaches zero.
 
@@ -216,6 +216,7 @@ def main():
 
             
         countdown(hrs, mins, secs)
+        print("\nTime's up!")
 
     elif choice == 3:
         stopwatch()
