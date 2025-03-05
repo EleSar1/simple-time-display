@@ -1,4 +1,4 @@
-from time import *
+from time import localtime, strftime, sleep
 
 
 def display_current_time() -> None:
