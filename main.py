@@ -91,8 +91,15 @@ def customizable_output(total_seconds: int, display_format: str) -> str:
 def timezone_converter(location: str) -> None:
 
     tz = timezone(location)
-    time_tz = datetime.now(tz=tz).strftime("%A, %B %d %Y %H:%M:%S")
-    return f"{time_tz}"
+    process = True
+    while process:
+        try:
+            time_tz = datetime.now(tz=tz).strftime("%A, %B %d %Y %H:%M:%S")
+            print(f"\r{time_tz}", end="")
+            sleep(1)
+        except KeyboardInterrupt:
+            print("\nProgram interrupted by the user. Goodbye!")
+            process = False
 
 
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
@@ -276,7 +283,7 @@ def main():
 
 
     elif choice == 4:
-        print("\nStarting the time zone converter.\n")
+        print("\nStarting the time zone converter.\nPress Ctrl+C when you want to stop.\n")
 
         location = ""
         while location not in all_timezones and location != "0":    
@@ -284,11 +291,10 @@ def main():
             if location not in all_timezones and location != "0":
                 print("This location does not exist. Make sure to enter an existing timezone.\n")
             elif location == "0":
-                print("Program interrupted by the user. Goodbye!")
+                print("Program interrupted by the user. Goodbye!!")
             else:
                 print(f"\nDate and time in {location}:")
-                converted_tz = timezone_converter(location)
-                print(converted_tz)
+                timezone_converter(location)
 
 
 if __name__ == "__main__":
