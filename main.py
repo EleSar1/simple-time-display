@@ -1,5 +1,6 @@
 from time import localtime, strftime, sleep
-
+from datetime import datetime
+from pytz import all_timezones, timezone
 
 def display_current_time() -> None:
     
@@ -85,6 +86,15 @@ def customizable_output(total_seconds: int, display_format: str) -> str:
         return f"{total_minutes:02d}:{secs:02d}"
     elif display_format == "s":
         return f"{secs:02d} seconds"
+
+
+def timezone_converter(location: str) -> None:
+    
+    if location in all_timezones:
+
+        tz = timezone(location)
+        time_tz = datetime.now(tz=tz)
+        print(time_tz)
 
 
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
