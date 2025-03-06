@@ -89,12 +89,10 @@ def customizable_output(total_seconds: int, display_format: str) -> str:
 
 
 def timezone_converter(location: str) -> None:
-    
-    if location in all_timezones:
 
-        tz = timezone(location)
-        time_tz = datetime.now(tz=tz)
-        print(time_tz)
+    tz = timezone(location)
+    time_tz = datetime.now(tz=tz).strftime("%A, %B %d %Y %H:%M:%S")
+    return f"{time_tz}"
 
 
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
@@ -208,14 +206,15 @@ def main():
     print("1: to display current time.")
     print("2: to start a countdown.")
     print("3: to start stopwatch.")
+    print("4: to start the timezone converter.")
     print("Press 0 if you want to stop the program.")
     print("\n-------------------------------------------------------------------------------\n")
 
-    choice = 4
-    while choice > 3 or choice < 0: 
+    choice = -1
+    while choice > 4 or choice < 0: 
         try: 
             choice = int(input("Insert choice here: "))
-            if choice > 3:
+            if choice > 4:
                 print("\nNumber out of range. Please make sure to choose an existing functionality.")
         except ValueError:
             print("\nInvalid input. Please enter a valid integer.")
@@ -274,6 +273,22 @@ def main():
         print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
         stopwatch()
         print("Exiting. . .\nGoodbye!")
+
+
+    elif choice == 4:
+        print("\nStarting the time zone converter.\n")
+
+        location = ""
+        while location not in all_timezones and location != "0":    
+            location = input("Please enter the timezone you want to be displayed (e.g, Australia/Melbourne)(0 to exit): ")
+            if location not in all_timezones and location != "0":
+                print("This location does not exist. Make sure to enter an existing timezone.\n")
+            elif location == "0":
+                print("Program interrupted by the user. Goodbye!")
+            else:
+                print(f"\nDate and time in {location}:")
+                converted_tz = timezone_converter(location)
+                print(converted_tz)
 
 
 if __name__ == "__main__":
