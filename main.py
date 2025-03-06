@@ -49,5 +49,3 @@ def display_current_time() -> None:
         except KeyboardInterrupt:
             print("\nInterrupted by the user.")
             process = False
-
-display_current_time()
