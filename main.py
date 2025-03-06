@@ -1,5 +1,6 @@
 from time import localtime, strftime, sleep
-
+from datetime import datetime
+from pytz import all_timezones, timezone
 
 def display_current_time() -> None:
     
@@ -85,6 +86,35 @@ def customizable_output(total_seconds: int, display_format: str) -> str:
         return f"{total_minutes:02d}:{secs:02d}"
     elif display_format == "s":
         return f"{secs:02d} seconds"
+
+
+def timezone_converter(location: str) -> None:
+
+    """
+    Continuously displays the current time in the specified timezone.
+
+    This function retrieves the current time for the given timezone and updates 
+    it every second in an infinite loop. The user can stop the process manually 
+    by pressing `Ctrl + C`, which will trigger a `KeyboardInterrupt` and exit 
+    the loop gracefully.
+
+    Args:
+        -location (str): The name of the timezone (e.g., "Europe/Rome", "America/New_York").
+
+    Returns:
+    None
+    """
+
+    tz = timezone(location)
+    process = True
+    while process:
+        try:
+            time_tz = datetime.now(tz=tz).strftime("%A, %B %d %Y %H:%M:%S")
+            print(f"\r{time_tz}", end="")
+            sleep(1)
+        except KeyboardInterrupt:
+            print("\nProgram interrupted by the user. Goodbye!")
+            process = False
 
 
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
@@ -198,14 +228,15 @@ def main():
     print("1: to display current time.")
     print("2: to start a countdown.")
     print("3: to start stopwatch.")
+    print("4: to start the timezone converter.")
     print("Press 0 if you want to stop the program.")
     print("\n-------------------------------------------------------------------------------\n")
 
-    choice = 4
-    while choice > 3 or choice < 0: 
+    choice = -1
+    while choice > 4 or choice < 0: 
         try: 
             choice = int(input("Insert choice here: "))
-            if choice > 3:
+            if choice > 4:
                 print("\nNumber out of range. Please make sure to choose an existing functionality.")
         except ValueError:
             print("\nInvalid input. Please enter a valid integer.")
@@ -264,6 +295,21 @@ def main():
         print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
         stopwatch()
         print("Exiting. . .\nGoodbye!")
+
+
+    elif choice == 4:
+        print("\nStarting the time zone converter.\nPress Ctrl+C when you want to stop.\n")
+
+        location = ""
+        while location not in all_timezones and location != "0":    
+            location = input("Please enter the timezone you want to be displayed (e.g, Australia/Melbourne)(0 to exit): ")
+            if location not in all_timezones and location != "0":
+                print("This location does not exist. Make sure to enter an existing timezone.\n")
+            elif location == "0":
+                print("Program interrupted by the user. Goodbye!!")
+            else:
+                print(f"\nDate and time in {location}:")
+                timezone_converter(location)
 
 
 if __name__ == "__main__":
