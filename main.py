@@ -90,6 +90,21 @@ def customizable_output(total_seconds: int, display_format: str) -> str:
 
 def timezone_converter(location: str) -> None:
 
+    """
+    Continuously displays the current time in the specified timezone.
+
+    This function retrieves the current time for the given timezone and updates 
+    it every second in an infinite loop. The user can stop the process manually 
+    by pressing `Ctrl + C`, which will trigger a `KeyboardInterrupt` and exit 
+    the loop gracefully.
+
+    Args:
+        -location (str): The name of the timezone (e.g., "Europe/Rome", "America/New_York").
+
+    Returns:
+    None
+    """
+
     tz = timezone(location)
     process = True
     while process:
