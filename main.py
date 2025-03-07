@@ -119,6 +119,32 @@ def timezone_converter(location: str) -> None:
 
 def world_clock_display(tz_choice = list) -> None:
     
+    """
+    Displays the current time for a list of specified timezones.
+
+    This function takes a list of timezone names and prints the current time 
+    in each of them. The time is formatted as "Month Day Year HH:MM:SS". 
+
+    Args:
+        tz_choice (list): A list of strings representing timezone names 
+                          (e.g., ["Europe/Rome", "America/New_York"]).
+
+    Returns:
+        None
+    """    """
+    Displays the current time for a list of specified timezones.
+
+    This function takes a list of timezone names and prints the current time 
+    in each of them. The time is formatted as "Month Day Year HH:MM:SS". 
+
+    Args:
+        tz_choice (list): A list of strings representing timezone names 
+                          (e.g., ["Europe/Rome", "America/New_York"]).
+
+    Returns:
+        None
+    """
+    
     for location in tz_choice:
         tz = timezone(location)
         time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S")
