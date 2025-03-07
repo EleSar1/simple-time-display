@@ -20,7 +20,7 @@ def display_current_time() -> None:
     Example output:
 
         ''' 
-        Monday, March 04 2025 14:30:45
+        March 04 2025 14:30:45
         '''
 
     Args: 
@@ -45,12 +45,18 @@ def display_current_time() -> None:
             if c_hour == 0 and c_minutes == 0 and c_secs == 0:
                 current_date = strftime("%B %d %Y") #update the current date
 
-            current_time = strftime("%H:%M:%S")
+            current_time = strftime("%H:%M:%S %Z %z")
             print(f"\r{current_date} {current_time}   ", end = "")
             sleep(1)
         except KeyboardInterrupt:
             print("\nInterrupted by the user.")
             process = False
+
+
+def display_date_information():
+
+    date_information = strftime("It's %A, is the %U week number and  %j day of the year.")
+    return date_information
 
             
 def customizable_output(total_seconds: int, display_format: str) -> str:
@@ -109,7 +115,7 @@ def timezone_converter(location: str) -> None:
     process = True
     while process:
         try:
-            time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S")
+            time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S %Z %z")
             print(f"\r{time_tz}", end="")
             sleep(1)
         except KeyboardInterrupt:
@@ -279,6 +285,15 @@ def main():
         print("\nDisplay current time\n")
         display_current_time()
 
+        additional_information = ""
+        while additional_information != "Y" and additional_information != "N":
+            additional_information = input("Do you want to display additional information (e.g, the day of the week)? (Y/N)").upper()
+            if additional_information != "Y" and additional_information != "N":
+                print("Please enter a valid answer (Y/N).")
+            elif additional_information == "Y":
+                print(display_date_information())
+
+
     elif choice == 2:
         print("\nStarting Countdown\n")
         
@@ -355,8 +370,8 @@ def main():
                 location_choice = input("Please enter a valid location (e.g, 'America/New_York', 'Europe/Rome'): ")
             timezones.append(location_choice)
         world_clock_display(timezones)
-            
-        
+
+       
 if __name__ == "__main__":
     
     main()
