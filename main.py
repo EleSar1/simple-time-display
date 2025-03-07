@@ -109,12 +109,20 @@ def timezone_converter(location: str) -> None:
     process = True
     while process:
         try:
-            time_tz = datetime.now(tz=tz).strftime("%A, %B %d %Y %H:%M:%S")
+            time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S")
             print(f"\r{time_tz}", end="")
             sleep(1)
         except KeyboardInterrupt:
             print("\nProgram interrupted by the user. Goodbye!")
             process = False
+
+
+def world_clock_display(tz_choice = list) -> None:
+    
+    for location in tz_choice:
+        tz = timezone(location)
+        time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S")
+        print(f"Time in {location}: {time_tz}")
 
 
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
@@ -233,10 +241,10 @@ def main():
     print("\n-------------------------------------------------------------------------------\n")
 
     choice = -1
-    while choice > 4 or choice < 0: 
+    while choice > 5 or choice < 0: 
         try: 
             choice = int(input("Insert choice here: "))
-            if choice > 4:
+            if choice > 5:
                 print("\nNumber out of range. Please make sure to choose an existing functionality.")
         except ValueError:
             print("\nInvalid input. Please enter a valid integer.")
@@ -290,12 +298,10 @@ def main():
             elif display_format == "0":
                 print("Terminated by the user. Goodbye!")
 
-
     elif choice == 3:
         print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
         stopwatch()
         print("Exiting. . .\nGoodbye!")
-
 
     elif choice == 4:
         print("\nStarting the time zone converter.\nPress Ctrl+C when you want to stop.\n")
@@ -311,7 +317,20 @@ def main():
                 print(f"\nDate and time in {location}:")
                 timezone_converter(location)
 
+    elif choice == 5:
+        
+        print("Starting multiple clocks display.\nThis program allows you to display up to 5 different clock simoultaneously.\n")
 
+        timezones = []
+        
+        for counter in range(1,5+1):
+            location_choice = input(f"Location number {counter}: ")
+            while location_choice not in all_timezones:
+                location_choice = input("Please enter a valid location (e.g, 'America/New_York', 'Europe/Rome'): ")
+            timezones.append(location_choice)
+        world_clock_display(timezones)
+            
+        
 if __name__ == "__main__":
     
     main()
