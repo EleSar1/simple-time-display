@@ -6,7 +6,7 @@ def display_current_time() -> None:
     
     """
     Continously displays the current date and time in the format:
-    Day, Month DD YYYY HH:MM:SS", updating every second.
+    Day, Month DD YYYY HH:MM:SS TZ %z", updating every second.
 
     The function runs indefinitely until interrupted by the user (with Ctrl+C).
     When interrupted, it prints "Interrupted by the user." and terminates gracefully.
@@ -20,7 +20,7 @@ def display_current_time() -> None:
     Example output:
 
         ''' 
-        March 04 2025 14:30:45
+        March 04 2025 14:30:45 CET +0100
         '''
 
     Args: 
