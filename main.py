@@ -20,7 +20,7 @@ def display_current_time() -> None:
     Example output:
 
         ''' 
-        Monday, March 04 2025 14:30:45
+        March 04 2025 14:30:45
         '''
 
     Args: 
@@ -45,12 +45,29 @@ def display_current_time() -> None:
             if c_hour == 0 and c_minutes == 0 and c_secs == 0:
                 current_date = strftime("%B %d %Y") #update the current date
 
-            current_time = strftime("%H:%M:%S")
+            current_time = strftime("%H:%M:%S %Z %z")
             print(f"\r{current_date} {current_time}   ", end = "")
             sleep(1)
         except KeyboardInterrupt:
-            print("\nInterrupted by the user.")
+            print("\nInterrupted by the user.\n")
             process = False
+
+
+def display_date_information() -> str:
+    """
+    Returns a string containing information about the current date.
+
+    The returned string includes:
+    - The full name of the current day (e.g., Monday, Tuesday).
+    - The week number of the year (starting from 00).
+    - The day number of the year (starting from 001).
+
+    Returns:
+        str: A formatted string with the current date information.
+    """
+        
+    date_information = strftime("It's %A, is the %U week number and  %j day of the year.")
+    return date_information
 
             
 def customizable_output(total_seconds: int, display_format: str) -> str:
@@ -109,12 +126,46 @@ def timezone_converter(location: str) -> None:
     process = True
     while process:
         try:
-            time_tz = datetime.now(tz=tz).strftime("%A, %B %d %Y %H:%M:%S")
+            time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S %Z %z")
             print(f"\r{time_tz}", end="")
             sleep(1)
         except KeyboardInterrupt:
             print("\nProgram interrupted by the user. Goodbye!")
             process = False
+
+
+def world_clock_display(tz_choice = list) -> None:
+    
+    """
+    Displays the current time for a list of specified timezones.
+
+    This function takes a list of timezone names and prints the current time 
+    in each of them. The time is formatted as "Month Day Year HH:MM:SS". 
+
+    Args:
+        tz_choice (list): A list of strings representing timezone names 
+                          (e.g., ["Europe/Rome", "America/New_York"]).
+
+    Returns:
+        None
+    """    """
+    Displays the current time for a list of specified timezones.
+
+    This function takes a list of timezone names and prints the current time 
+    in each of them. The time is formatted as "Month Day Year HH:MM:SS". 
+
+    Args:
+        tz_choice (list): A list of strings representing timezone names 
+                          (e.g., ["Europe/Rome", "America/New_York"]).
+
+    Returns:
+        None
+    """
+    
+    for location in tz_choice:
+        tz = timezone(location)
+        time_tz = datetime.now(tz=tz).strftime("%B %d %Y %H:%M:%S")
+        print(f"Time in {location}: {time_tz}")
 
 
 def countdown(hrs: int = 0, mins: int = 0, secs: int = 0, display_format="hms") -> None:
@@ -229,14 +280,15 @@ def main():
     print("2: to start a countdown.")
     print("3: to start stopwatch.")
     print("4: to start the timezone converter.")
+    print("5: to start multiple clock display.")
     print("Press 0 if you want to stop the program.")
     print("\n-------------------------------------------------------------------------------\n")
 
     choice = -1
-    while choice > 4 or choice < 0: 
+    while choice > 5 or choice < 0: 
         try: 
             choice = int(input("Insert choice here: "))
-            if choice > 4:
+            if choice > 5:
                 print("\nNumber out of range. Please make sure to choose an existing functionality.")
         except ValueError:
             print("\nInvalid input. Please enter a valid integer.")
@@ -244,6 +296,15 @@ def main():
     if choice == 1:
         print("\nDisplay current time\n")
         display_current_time()
+
+        additional_information = ""
+        while additional_information != "Y" and additional_information != "N":
+            additional_information = input("Do you want to display additional information (e.g, the day of the week)? (Y/N)").upper()
+            if additional_information != "Y" and additional_information != "N":
+                print("Please enter a valid answer (Y/N).")
+            elif additional_information == "Y":
+                print(display_date_information())
+
 
     elif choice == 2:
         print("\nStarting Countdown\n")
@@ -290,12 +351,10 @@ def main():
             elif display_format == "0":
                 print("Terminated by the user. Goodbye!")
 
-
     elif choice == 3:
         print("\nStarting Stopwatch.\nPress Ctrl+C to stop.")
         stopwatch()
         print("Exiting. . .\nGoodbye!")
-
 
     elif choice == 4:
         print("\nStarting the time zone converter.\nPress Ctrl+C when you want to stop.\n")
@@ -311,7 +370,20 @@ def main():
                 print(f"\nDate and time in {location}:")
                 timezone_converter(location)
 
+    elif choice == 5:
+        
+        print("Starting multiple clocks display.\nThis program allows you to display up to 5 different clock simoultaneously.\n")
 
+        timezones = []
+        
+        for counter in range(1,5+1):
+            location_choice = input(f"Location number {counter}: ")
+            while location_choice not in all_timezones:
+                location_choice = input("Please enter a valid location (e.g, 'America/New_York', 'Europe/Rome'): ")
+            timezones.append(location_choice)
+        world_clock_display(timezones)
+
+       
 if __name__ == "__main__":
     
     main()
