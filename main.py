@@ -49,12 +49,23 @@ def display_current_time() -> None:
             print(f"\r{current_date} {current_time}   ", end = "")
             sleep(1)
         except KeyboardInterrupt:
-            print("\nInterrupted by the user.")
+            print("\nInterrupted by the user.\n")
             process = False
 
 
-def display_date_information():
+def display_date_information() -> str:
+    """
+    Returns a string containing information about the current date.
 
+    The returned string includes:
+    - The full name of the current day (e.g., Monday, Tuesday).
+    - The week number of the year (starting from 00).
+    - The day number of the year (starting from 001).
+
+    Returns:
+        str: A formatted string with the current date information.
+    """
+        
     date_information = strftime("It's %A, is the %U week number and  %j day of the year.")
     return date_information
 
@@ -269,6 +280,7 @@ def main():
     print("2: to start a countdown.")
     print("3: to start stopwatch.")
     print("4: to start the timezone converter.")
+    print("5: to start multiple clock display.")
     print("Press 0 if you want to stop the program.")
     print("\n-------------------------------------------------------------------------------\n")
 
